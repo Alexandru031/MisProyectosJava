@@ -5,20 +5,23 @@
 package oovv;
 
 import exception.MaEx;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 /**
  *
  * @author Alexandru
  */
 public class UnText {
-    
+
     private String text;
 
     public UnText() {
         this.text = "";
     }
 
-    public UnText(String text){
+    public UnText(String text) {
         if (text == null) {
             text = "";
         }
@@ -35,8 +38,8 @@ public class UnText {
         }
         this.text = text;
     }
-    
-    public void encripta(String palabra){
+
+    public void encripta(String palabra) {
         String lletra = "";
         char[] carc = text.toCharArray();
         int suma;
@@ -52,8 +55,8 @@ public class UnText {
         }
         text = lletra;
     }
-    
-    public void desencripta(String palabra){
+
+    public void desencripta(String palabra) {
         String lletra = "";
         char[] carc = text.toCharArray();
         int resta;
@@ -69,5 +72,5 @@ public class UnText {
         }
         text = lletra;
     }
-    
+
 }

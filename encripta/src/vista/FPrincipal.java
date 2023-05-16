@@ -32,6 +32,8 @@ public class FPrincipal extends javax.swing.JFrame {
         bEncripta = new javax.swing.JButton();
         bDesencripta = new javax.swing.JButton();
         bPassa = new javax.swing.JButton();
+        bLlig = new javax.swing.JButton();
+        bGuardar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tfOriginal = new javax.swing.JTextArea();
@@ -49,6 +51,10 @@ public class FPrincipal extends javax.swing.JFrame {
 
         bPassa.setText("Passa");
 
+        bLlig.setText("Llig fitxer");
+
+        bGuardar.setText("Guarda fitxer");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -58,7 +64,11 @@ public class FPrincipal extends javax.swing.JFrame {
                 .addComponent(bEncripta)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bDesencripta)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 143, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bLlig)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bGuardar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(bPassa)
                 .addContainerGap())
         );
@@ -69,7 +79,9 @@ public class FPrincipal extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bDesencripta)
                     .addComponent(bEncripta)
-                    .addComponent(bPassa))
+                    .addComponent(bPassa)
+                    .addComponent(bLlig)
+                    .addComponent(bGuardar))
                 .addContainerGap(19, Short.MAX_VALUE))
         );
 
@@ -87,7 +99,7 @@ public class FPrincipal extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -189,6 +201,8 @@ public class FPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bDesencripta;
     private javax.swing.JButton bEncripta;
+    private javax.swing.JButton bGuardar;
+    private javax.swing.JButton bLlig;
     private javax.swing.JButton bPassa;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -203,6 +217,8 @@ public class FPrincipal extends javax.swing.JFrame {
         bEncripta.addActionListener(oidor);
         bDesencripta.addActionListener(oidor);
         bPassa.addActionListener(oidor);
+        bLlig.addActionListener(oidor);
+        bGuardar.addActionListener(oidor);
     }
     
     public String getOriginal(){
@@ -211,6 +227,10 @@ public class FPrincipal extends javax.swing.JFrame {
     
     public String getCanviat(){
         return tfCanviat.getText();
+    }
+    
+    public void mostraOrig(String text){
+        tfOriginal.setText(text);
     }
     
     public void mostrar(String text){

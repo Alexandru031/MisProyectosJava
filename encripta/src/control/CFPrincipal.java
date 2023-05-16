@@ -4,9 +4,15 @@
  */
 package control;
 
-import exception.MaEx;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import oovv.UnText;
 import vista.FPrincipal;
@@ -48,7 +54,33 @@ public class CFPrincipal implements ActionListener {
             case "Passa":
                 finestra.canvia();
                 break;
+            case "Llig fitxer": {
+                try {
+                    model.setText(llegirText());
+                    finestra.mostraOrig(model.getText());
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(finestra, ex.getMessage());
+                }
+            }
+            break;
+
+            case "Guarda fitxer":
+
+                break;
         }
+    }
+
+    public String llegirText() throws FileNotFoundException, IOException {
+        String texto = "";
+        
+        FileReader f = new FileReader("fichero.txt");
+        int aux = f.read(); // llig un caràcter del flux i l'assigna a aux llig un enter
+        texto += (char) aux;
+        while (aux != -1) { // mentre no llig el EOF
+            aux = f.read(); // llig un caràcter del flux i l'assigna a aux llig un enter
+            texto += (char) aux;
+        }
+        return texto;
     }
 
 }
