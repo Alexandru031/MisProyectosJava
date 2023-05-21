@@ -1,0 +1,35 @@
+Animal	-->	Cani	-->	Llop
+			-->	Gos
+
+
+Casting implicito (Transformar la más especifica en generalizado)
+un cani es un Cani true (Porque un Cani es el mismo tipo de Cani)
+un gos es un Cani true (Porque el Gos esta heredado de Cani)
+un llop es un Cani true (Porque el Llop esta heredado de Cani)
+Ejemplo:
+Object obj = new Llop(); (obj es Llop)
+Animal b = obj; (obj es Llop por lo tanto pasa a ser Animal)
+
+
+Casting explicito (Transformar la más generalizado en especifico)
+un cani es un llop false (Porque el Cani es más generalizado que un Llop porque Cani no esta heredado de LLop si no que Llop está heredado de Cani)
+un gos es un llop false (Porque está en diferentes jerarquias, entre Gos y LLop se heredan los dos en Cani)
+un llop es un llop true (Porque es el mismo tipo)
+Ejemplo:
+Object obj = new Llop();	(obj es un Llop)
+Llop x = obj;	(Da error porque el copilador no considera que obj es un Llop, por la tanto habrá que hacer un casting)
+LLop x = (Llop) obj;	( Funciona porque obj es un Llop por lo tanto pasa a ser Llop)
+
+
+if (mat[i] instanceof Llop){ // es pregunta si mat[i] és un Llop
+ Llop llop = (Llop) mat[i]; // es transforma mat[i] de Animal a Llop
+ llop.menjar();
+}
+Si no hago el casting en Animal entonces solo tengo acceso a los comportamientos de Animal
+Si quiero utilizar los metodos de Llop habrá que hacer un casting a Llop
+
+METODOS
+Gos gos = new Gos(); (Los metodos de "gos" busca desde la clase Gos hasta Animal(De abajo a arriba), el primer metodo que coja se ejecuta)
+Animal gos = new Gos(); (Los metodos de "gos" busca desde la clase Gos hasta Animal(De abajo a arriba), el primer metodo que coja se ejecuta.)
+			(Si la clase Gos tiene metodos que no están heredados en Animal, entonces no se mostrarian porque la referencia es Animal
+			y gos tiene metodos que tenga en la Clase Animal y los metodos heredados desde clase Gos hasta Animal, pero que no están heredados en Gos, no)
