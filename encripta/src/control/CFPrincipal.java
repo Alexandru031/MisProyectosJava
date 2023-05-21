@@ -6,13 +6,10 @@ package control;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import oovv.UnText;
 import vista.FPrincipal;
@@ -54,33 +51,54 @@ public class CFPrincipal implements ActionListener {
             case "Passa":
                 finestra.canvia();
                 break;
-            case "Llig fitxer": {
+            case "Llig fitxer": 
+            {
+                String ruta = JOptionPane.showInputDialog(finestra, "Introduce una ruta de fichero, estás en la ruta(...\\MisProyectosJava\\encripta)");
                 try {
-                    model.setText(llegirText());
+                    model.setText(llegirText(ruta));
                     finestra.mostraOrig(model.getText());
                 } catch (IOException ex) {
-                    JOptionPane.showMessageDialog(finestra, ex.getMessage());
                 }
             }
             break;
 
             case "Guarda fitxer":
-
+                String ruta = JOptionPane.showInputDialog(finestra, "Introduce una ruta de fichero, estás en la ruta(...\\MisProyectosJava\\encripta)");
+            {
+                try {
+                    escriuText(finestra.getCanviat(), ruta);
+                } catch (IOException ex) {
+                }
+            }
                 break;
+
         }
     }
 
-    public String llegirText() throws FileNotFoundException, IOException {
+    public String llegirText(String ruta) throws FileNotFoundException, IOException {
         String texto = "";
-        
-        FileReader f = new FileReader("fichero.txt");
-        int aux = f.read(); // llig un caràcter del flux i l'assigna a aux llig un enter
-        texto += (char) aux;
-        while (aux != -1) { // mentre no llig el EOF
-            aux = f.read(); // llig un caràcter del flux i l'assigna a aux llig un enter
+
+        try (FileReader f = new FileReader(ruta) // Abre un stream de entrada hacia la ruta
+                ) {
+            int aux = f.read(); // llig un caràcter del flux i l'assigna a aux llig un enter
             texto += (char) aux;
-        }
+            while (aux != -1) {
+                // mentre no llig el EOF
+                aux = f.read(); // llig un caràcter del flux i l'assigna a aux llig un enter
+                texto += (char) aux;
+            }
+            // cerrar el stream
+        } // llig un caràcter del flux i l'assigna a aux llig un enter
         return texto;
+    }
+
+    public void escriuText(String texto, String ruta) throws FileNotFoundException, IOException {
+        try (FileWriter f = new FileWriter(ruta)) {
+            for (int i = 0; i < texto.length(); i++) {
+                f.write(texto.charAt(i));
+            }
+            f.close(); // cerrar el stream
+        }
     }
 
 }
