@@ -9,6 +9,7 @@ package oovv;
  * @author Alexandru
  */
 public class Conductor {
+    
     private String nom;
 
     public Conductor() {
@@ -18,4 +19,11 @@ public class Conductor {
     public Conductor(String nom) {
         this.nom = nom;
     }
+
+    @Override
+    public String toString() {
+        return nom;
+    }
+    
+    
 }

@@ -4,9 +4,14 @@
  */
 package logica;
 
+import excepcion.MaEx;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JOptionPane;
+import oovv.Repostage;
+import oovv.Vehicles;
 import vista.DAfegirRepostage;
+import vista.FPrincipal;
 
 /**
  *
@@ -15,9 +20,24 @@ import vista.DAfegirRepostage;
 public class LDAfegirRepostage implements ActionListener {
 
     private DAfegirRepostage finestra;
+    private String clauRepostage;
 
+    public LDAfegirRepostage(FPrincipal fp) {
+        finestra = new DAfegirRepostage(fp, true);
+        finestra.setOidor(this);
+        finestra.setVisible(true);
+    }
+    
     public LDAfegirRepostage(DAfegirRepostage finestra) {
         this.finestra = finestra;
+    }
+    
+    public String getClauRepos(){
+        return clauRepostage;
+    }
+    
+    public Repostage getRepostage() throws MaEx {
+        return finestra.getDadesRepostage();
     }
 
     @Override
@@ -25,11 +45,12 @@ public class LDAfegirRepostage implements ActionListener {
 
         switch (e.getActionCommand()) {
             case "valida":
-                break;
+                clauRepostage = finestra.getClauRepos();
             case "cancela":
+                finestra.dispose();
                 break;
         }
-
     }
 
+    
 }

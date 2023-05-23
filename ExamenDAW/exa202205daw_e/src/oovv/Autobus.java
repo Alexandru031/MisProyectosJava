@@ -12,9 +12,10 @@ import java.util.List;
  *
  * @author Alexandru
  */
-public class Autobus extends Vehicle{
+public class Autobus extends Vehicle {
+
     private Conductor conductor;
-    private List<Repostage> respotatge;
+    private List<Repostage> repostage;
     private int seients;
     private double preuLloguer;
 
@@ -24,7 +25,7 @@ public class Autobus extends Vehicle{
             throw new MaEx("Seients no está asignat");
         }
         this.conductor = conductor;
-        this.respotatge = new ArrayList<>();
+        this.repostage = new ArrayList<>();
         this.seients = seients;
         this.preuLloguer = preuLloguer;
     }
@@ -35,26 +36,34 @@ public class Autobus extends Vehicle{
             throw new MaEx("Seients no está asignat");
         }
         this.conductor = new Conductor();
+        this.repostage = new ArrayList<>();
         this.seients = seients;
         this.preuLloguer = 0.0;
     }
 
     @Override
-    public void afegirRepostatge(List<Repostage> repos) {
-        respotatge = repos;
+    public void afegirRepostatges(List<Repostage> repos) {
+        repostage = repos;
     }
-    
+
     @Override
-    public String llistatRepositoris(){
+    public void afegirUnRepos(Repostage repos) {
+        repostage.add(repos);
+    }
+
+    @Override
+    public String llistatRepositoris() {
         String llistat = "";
         int cont = 0;
-        for (Repostage repos : respotatge) {
-            if (cont > 2) {
-                llistat += "\n";
-                cont = 0;
+        if (repostage != null) {
+            for (Repostage repos : repostage) {
+                if (cont > 2) {
+                    llistat += "\n";
+                    cont = 0;
+                }
+                llistat += repos + " // ";
+                cont++;
             }
-            llistat += repos +" // ";
-            cont++;
         }
         llistat += "\n\n";
         return llistat;
@@ -64,6 +73,10 @@ public class Autobus extends Vehicle{
     public String toString() {
         return "Autobus> " + super.toString() + " amb " + seients + " seients lloguer " + preuLloguer;
     }
-    
-    
+
+    @Override
+    public String llistatRuta() {
+        return getMatricula() + "__" + getMarca() + "__" + conductor;
+    }
+
 }

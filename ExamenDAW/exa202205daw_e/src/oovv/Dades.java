@@ -82,11 +82,11 @@ public class Dades {
                 String[] separa = dadesVehicles[i].split("/");
                 if (separa[0].equals("A")) {
                     Autobus bus = new Autobus(separa[1], separa[2], Integer.parseInt(separa[3]), Double.parseDouble(separa[4]), new Conductor(dadesConductors[i]));
-                    bus.afegirRepostatge(getRepostatge(i));
+                    bus.afegirRepostatges(getRepostatge(i));
                     llistat.add(bus);
                 } else {
                     Furgoneta furgoneta = new Furgoneta(separa[1], separa[2], Double.parseDouble(separa[3]), Double.parseDouble(separa[4]), new Conductor(dadesConductors[i]));
-                    furgoneta.afegirRepostatge(getRepostatge(i));
+                    furgoneta.afegirRepostatges(getRepostatge(i));
                     llistat.add(furgoneta);
                 }
             }

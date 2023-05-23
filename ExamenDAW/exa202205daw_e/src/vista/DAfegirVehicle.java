@@ -256,15 +256,9 @@ public class DAfegirVehicle extends javax.swing.JDialog {
     }
 
     public Vehicle getVehicle() throws MaEx {
-        try {
-            if (rbAutobus.isSelected()) {
-                return new Autobus(tfMatricula.getText(), tfMarca.getText(), Integer.parseInt(tfSeients.getText()));
-            }
-            return new Furgoneta(tfMatricula.getText(), tfMarca.getText(), Double.parseDouble(tfCapacitatMax.getText()));
-        } catch (NumberFormatException ex) {
-            throw new NumberFormatException("El format es Incorrecte");
+        if (rbAutobus.isSelected()) {
+            return new Autobus(tfMatricula.getText(), tfMarca.getText(), Integer.parseInt(tfSeients.getText()));
         }
+        return new Furgoneta(tfMatricula.getText(), tfMarca.getText(), Double.parseDouble(tfCapacitatMax.getText()));
     }
-
-
 }

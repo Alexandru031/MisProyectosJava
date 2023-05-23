@@ -4,8 +4,10 @@
  */
 package logica;
 
+import excepcion.MaEx;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JOptionPane;
 import oovv.Vehicle;
 import vista.DAfegirVehicle;
 import vista.FPrincipal;
@@ -16,7 +18,7 @@ import vista.FPrincipal;
  */
 public class LDAfegirVehicle implements ActionListener {
 
-    public static Vehicle lligTemperatura(FPrincipal fp) {
+    public static Vehicle lligVehicle(FPrincipal fp) {
         return (new LDAfegirVehicle(fp)).getVehicle();
     }
     
@@ -44,13 +46,27 @@ public class LDAfegirVehicle implements ActionListener {
 
         switch (e.getActionCommand()) {
             case "valida autobus":
-                vehicle = finestra.getVehicle();
+            {
+                try {
+                    vehicle = finestra.getVehicle();
+                    finestra.dispose();
+                } catch (NumberFormatException | MaEx ex) {
+                    JOptionPane.showMessageDialog(finestra, ex.getMessage());
+                }
+            }
                 break;
             case "valida furgoneta":
-
+                try {
+                    vehicle = finestra.getVehicle();
+                    finestra.dispose();
+                } catch (MaEx ex) {
+                    JOptionPane.showMessageDialog(finestra, ex.getMessage());
+                }  catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(finestra, "El formato es incorrecto");
+                }
                 break;
             case "cancela":
-                
+                finestra.dispose();
                 break;
         }
 

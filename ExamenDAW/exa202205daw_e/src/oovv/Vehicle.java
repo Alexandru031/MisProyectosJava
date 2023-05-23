@@ -35,6 +35,10 @@ public abstract class Vehicle {
         return hash;
     }
 
+    public String getMatricula() {
+        return matricula;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -50,14 +54,20 @@ public abstract class Vehicle {
         return Objects.equals(this.matricula, other.matricula);
     }
 
-    public abstract void afegirRepostatge(List<Repostage> dadesRepostatge);
+    public String getMarca() {
+        return marca;
+    }
+    
+    public abstract void afegirUnRepos(Repostage repos);
+
+    public abstract String llistatRepositoris();
+    
+    public abstract String llistatRuta();
+    
+    public abstract void afegirRepostatges(List<Repostage> dadesRepostatge);
 
     @Override
     public String toString() {
         return matricula + " Marca:" + marca;
     }
-
-    public abstract String llistatRepositoris();
-    
-    
 }

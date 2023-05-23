@@ -4,7 +4,9 @@
  */
 package vista;
 
+import excepcion.MaEx;
 import java.awt.event.ActionListener;
+import oovv.Repostage;
 
 /**
  *
@@ -210,8 +212,14 @@ public class DAfegirRepostage extends javax.swing.JDialog {
 
     /**
      * torna el repostatge.
+     * @return 
+     * @throws excepcion.MaEx 
      */
-    public getDadesRepostage() {
+    public Repostage getDadesRepostage() throws MaEx {
+        return new Repostage(Double.parseDouble(tfQuilometres.getText()), Double.parseDouble(tfLitres.getText()), Double.parseDouble(tfPreu.getText()));
+    }
 
+    public String getClauRepos() {
+        return String.valueOf(cbMatricules.getSelectedItem());
     }
 }

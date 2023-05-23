@@ -6,9 +6,12 @@ package logica;
 
 import excepcion.MaEx;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.ActionListener;;
+import javax.swing.JOptionPane;
 import oovv.Dades;
+import oovv.Repostage;
 import oovv.Vehicles;
+import vista.DAfegirRepostage;
 import vista.DAfegirVehicle;
 import vista.FPrincipal;
 
@@ -33,7 +36,14 @@ public class LFPrincipal implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
             case "afegir vehicle" ->       afegirUnVehicle();
-            case "afegir repostage" ->     afegirUnRepostatge();
+            case "afegir repostage" ->     {
+                try {
+                    afegirUnRepostatge();
+                } catch (MaEx ex) {
+                    JOptionPane.showMessageDialog(finestra, ex.getMessage());
+                }
+            }
+
             case "llistat complet" ->      llistatcomplet();
             case "llistat en ruta" ->      llistatEnruta();
             case "Eixir" ->                System.exit(0);
@@ -41,22 +51,26 @@ public class LFPrincipal implements ActionListener {
     }
 
     private void llistatEnruta() {
-        
+        finestra.mostra(model.llistatRuta());
     }
 
     private void llistatcomplet() {
         finestra.mostra(model.llistatComplet());
     }
 
-    private void afegirUnRepostatge() {
-        
+    private void afegirUnRepostatge() throws MaEx {
+        DAfegirRepostage f = new DAfegirRepostage(finestra, true);
+        f.carregaCB(model.getMatricules());
+        LDAfegirRepostage c = new LDAfegirRepostage(f);
+        f.setOidor(c);
+        f.setVisible(true);
+        String clauRepos = c.getClauRepos();
+        Repostage repos = c.getRepostage();
+        model.afegirRespotage(clauRepos, repos);
     }
 
     private void afegirUnVehicle() {
-        DAfegirVehicle f = new DAfegirVehicle(finestra, true);
-        LDAfegirVehicle c = new LDAfegirVehicle(f);
-        f.setOidor(c);
-        f.setVisible(true);
+        model.afegeix(LDAfegirVehicle.lligVehicle(finestra));
     }
 
 }
