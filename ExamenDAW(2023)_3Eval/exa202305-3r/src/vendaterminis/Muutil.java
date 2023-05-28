@@ -33,16 +33,16 @@ public class Muutil {
      */
     public static boolean esDNIcorrecte(String dni) {
         String[] separa = dni.split("-");
-        int digits = Integer.parseInt(separa[0]);
+        String digits = separa[0];
         String lletra = separa[1].toUpperCase();
-//        if (digits < 8) {
-//            for (int i = 0; i < ; i++) {
-//                
-//            }
-//        }
-//        if (digits) {
-//            
-//        }
+        for (int i = 0; i < digits.length(); i++) {
+            if (!Character.isDigit(digits.charAt(i)) || digits.length() > 8) {
+                return true;
+            }
+        }
+        if (!Character.isLetter(lletra.charAt(0)) || lletra.length() > 1) {
+            return true;
+        }
         return false;
     }
     

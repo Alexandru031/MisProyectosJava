@@ -4,6 +4,7 @@
  */
 package oovv;
 
+import excepcion.MaEx;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -67,5 +68,15 @@ public class Vehicles {
         }
         llistat += "\n";
         return llistat;
+    }
+
+    public boolean getMaximReposKm(double km) throws MaEx {
+        double maxim = vehicles.get(0).getMaximKm();
+         for (Vehicle next : vehicles) {
+             if (next.getMaximKm() > maxim) {
+                 throw new MaEx("Els quilometres son inferios a l'ultima repostage: " + maxim);
+             }
+         }
+        return true;
     }
 }

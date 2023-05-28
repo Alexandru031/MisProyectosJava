@@ -5,11 +5,9 @@
  */
 package oovv;
 
-import com.sun.org.apache.xpath.internal.operations.Mult;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import vendaterminis.Muutil;
@@ -39,21 +37,22 @@ public class Botiga {
     public void afegirProducte(Map<String, Producte> mapProducte) {
         productes = mapProducte;
     }
-    
+
     public Producte getAleatoriProducte() {
         int numKey = Muutil.getAleatori(0, productes.size());
-        return productes.get(numKey);
+        return productes.get("Producte_"+numKey);
     }
 
     public Venedor getAleatoriVenedor() {
         int numKey = Muutil.getAleatori(0, venedors.size());
-        return venedors.get(numKey);
+        return venedors.get("Venedor_" + numKey);
     }
 
     public double getPreuPublic() {
         double media = 0;
-        for (int i = 0; i < productes.size(); i++) {
-            media += productes.get(i).getPreuVenda();
+        for (Map.Entry<String, Producte> entry : productes.entrySet()) {
+            Producte val = entry.getValue();
+            media += val.getPreuVenda();
         }
         double mediaAnterior = media / productes.size();
         media = (media / productes.size()) * 0.9;
@@ -64,12 +63,23 @@ public class Botiga {
         vendes = vendaTermi;
     }
 
-    public String llistarVendes() {
-        String llistar = "Llistar Vendes\n------------------\n";
-        for (Venda venda : vendes) {
-            llistar += venda + "\n";
+    public String llistarVendes(String codi) {
+        String llistar = "Vendes de \n------------------\n";
+        for (Map.Entry<String, Venedor> entry : venedors.entrySet()) {
+            Object key = entry.getKey();
+            Object val = entry.getValue();
         }
         return llistar;
     }
-    
+
+    public boolean teDNIRepetitVendaTerm(String dni) {
+        for (Iterator<Venda> iterator = vendes.iterator(); iterator.hasNext();) {
+            VendaTermini next = (VendaTermini) iterator.next();
+            if (next.client.getDni().equals(dni)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

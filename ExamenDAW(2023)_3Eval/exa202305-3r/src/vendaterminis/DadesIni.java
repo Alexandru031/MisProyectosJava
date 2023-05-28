@@ -10,6 +10,7 @@ import excep.EstaBuitEX;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import oovv.Botiga;
@@ -38,8 +39,12 @@ public class DadesIni {
     }
 
     /**
-     * crea els venedors. les dades d'obtenen de la matriu dadesVenedors, el
-     * DNI, el nom, l'adreça, el telèfon i el codi
+     * crea els venedors.les dades d'obtenen de la matriu dadesVenedors, el DNI,
+     * el nom, l'adreça, el telèfon i el codi
+     *
+     * @param botiga
+     * @throws excep.EstaBuitEX
+     * @throws excep.DNIincorrecteEX
      */
     public static void creaVenedors(Botiga botiga) throws EstaBuitEX, DNIincorrecteEX {
         String[] dadesVenedors = {
@@ -70,25 +75,39 @@ public class DadesIni {
         String adreca = "";
         String telefon = "";
         String codi = "";
+        int cont = 1;
+        int contVen = 1;
         for (int i = 0; i < dadesVenedors.length; i++) {
-            int cont = 0;
-            if (i == 0) {
-                dni = dadesVenedors[i];
+            if (cont > 5) {
+                cont = 1;
             }
-            if (i % 1 == 0) {
-                nom = dadesVenedors[i];
+            switch (cont) {
+                case 1:
+                    dni = dadesVenedors[i];
+                    break;
+                case 2:
+                    nom = dadesVenedors[i];
+                    break;
+                case 3:
+                    adreca = dadesVenedors[i];
+                    break;
+                case 4:
+                    telefon = dadesVenedors[i];
+                    break;
+                case 5:
+                    codi = dadesVenedors[i];
+                    break;
+                default:
+                    cont = 0;
+                    break;
             }
-            if (i % 2 == 0) {
-                adreca = dadesVenedors[i];
-            }
-            if (i % 3 == 0) {
-                telefon = dadesVenedors[i];
-            }
-            if (i % 4 == 0) {
-                codi = dadesVenedors[i];
+
+            if (cont == 5 && !codi.equals("-") && !Muutil.esDNIcorrecte(dni) && !getTeRepetitCodiVenedor(mapVenedor, codi) && !getTeDNIRepetitVenedor(mapVenedor, dni)) {
+                mapVenedor.put("Venedor_" + contVen, new Venedor(codi, dni, nom, adreca, telefon));
+                cont = 0;
+                contVen++;
             }
             cont++;
-            mapVenedor.put("Venedor" + cont, new Venedor(codi, dni, nom, adreca, telefon));
         }
         botiga.afegir(mapVenedor);
     }
@@ -174,46 +193,69 @@ public class DadesIni {
             "900", "Olimpus", "Cámara", "Evil OM-DE-M10, 16.1MP, 14-42mm", "519", "619"
         };
         Map<String, Producte> mapProducte = new HashMap<>();
-        String descripcio = "";
+//        String descripcio = "";
         String nom = "";
         String marca = "";
         String categoria = "";
         String codi = "";
         double preuCompra = 0;
         double preuVenda = 0;
+        int cont = 1;
+        int contProd = 1;
         for (int i = 0; i < dadesProductes.length; i++) {
-            int cont = 0;
-            if (i == 0) {
-                codi = dadesProductes[i];
-            } else if (i % 1 == 0) {
-                marca = dadesProductes[i];
-            } else if (i % 2 == 0) {
-                categoria = dadesProductes[i];
-            } else if (i % 3 == 0) {
-                String[] separa = dadesProductes[i].split(",");
-                nom = separa[0];
-                descripcio = separa[1];
-            } else if (i % 4 == 0) {
-                preuCompra = Double.parseDouble(dadesProductes[i]);
-            } else if (i % 5 == 0) {
-                preuVenda = Double.parseDouble(dadesProductes[i]);
+            if (cont > 6) {
+                cont = 1;
+            }
+            switch (cont) {
+                case 1:
+                    codi = dadesProductes[i];
+                    break;
+                case 2:
+                    marca = dadesProductes[i];
+                    break;
+                case 3:
+                    categoria = dadesProductes[i];
+                    break;
+                case 4:
+                    nom = dadesProductes[i];
+//                    String cad = dadesProductes[i];
+//                    int pos = getPos(cad);
+//                    nom = cad.substring(0, pos);
+//                    descripcio = cad.substring(pos + 2, cad.length());
+                    break;
+                case 5:
+                    preuCompra = Double.parseDouble(dadesProductes[i]);
+                    break;
+                case 6:
+                    preuVenda = Double.parseDouble(dadesProductes[i]);
+                    break;
+            }
+
+            if (cont == 6 && !codi.isEmpty() && !getTeRepetitCodiProducte(mapProducte, codi)) {
+                mapProducte.put("Producte_" + contProd, new Producte(codi, marca, nom, categoria, preuCompra, preuVenda));
+                cont = 0;
+                contProd++;
             }
             cont++;
-            mapProducte.put("Producte" + cont, new Producte(codi, marca, nom, categoria, preuCompra, preuVenda));
         }
         botiga.afegirProducte(mapProducte);
     }
 
     /**
-     * crea les vendes normals. La data és un dia qualsevol de gener a març, el
-     * producte és aleatòri, el venedor és aleatòri i el preu de venda al pùblic
-     * és el 90% del preu de venda del producte.
+     * crea les vendes normals.La data és un dia qualsevol de gener a març, el
+ producte és aleatòri, el venedor és aleatòri i el preu de venda al pùblic
+ és el 90% del preu de venda del producte.
+     * @param botiga
      */
     public static void creaVendes(Botiga botiga) {
-        List<Venda> vendes = new ArrayList<>(300);
-        for (Venda vende : vendes) {
-            vendes.add(new Venda(botiga.getAleatoriProducte(), botiga.getAleatoriVenedor(), getLocaldate(), botiga.getPreuPublic()));
+        List<Venda> vendes = new ArrayList<>();
+        for (int i = 0; i < 300; i++) {
+            Producte prod = 
+                    botiga.getAleatoriProducte();
+            double preuVendaPublic = prod.getPreuVenda() * 0.9;
+            vendes.add(new Venda(prod, botiga.getAleatoriVenedor(), getLocaldate(), preuVendaPublic));
         }
+        botiga.afegirVenda(vendes);
     }
 
     /**
@@ -224,7 +266,7 @@ public class DadesIni {
      * terminis i la quantia de cada termini.
      */
     public static void creaVendesTermini(Botiga botiga) throws EstaBuitEX, DNIincorrecteEX {
-        String[] dadesClients = {
+        String[] dadesVendesTermini = {
             "99800622-B", "Juan Bello Tatay", "cuenca 25, Valencia", "963993484", "1234-88336", "399", "1299", "21", "30",
             "91666293-T", "Elvira Collado Anguix", "Benimarfull 18, Valencia", "963332893", "0022-93484", "988", "1009", "24", "30.33",
             "40097207-L", "Fernando Ferrer García", "Zamenoff 17, Valencia", "963377877", "577-37777", "155", "889", "12", "65",
@@ -246,34 +288,102 @@ public class DadesIni {
         double preuVendaPublic = 0;
         int nombeTerminis = 0;
         double quantia = 0;
-        for (int i = 0; i < dadesClients.length; i++) {
-            int cont = 0;
-            if (i == 0) {
-                dni = dadesClients[i];
-            } else if (i % 1 == 0) {
-                nom = dadesClients[i];
-            } else if (i % 2 == 0) {
-                adreca = dadesClients[i];
-            } else if (i % 3 == 0) {
-                telefono = dadesClients[i];
-            } else if (i % 4 == 0) {
-                nomComcepte = dadesClients[i];
-            } else if (i % 5 == 0) {
-                codi = dadesClients[i];
-            } else if (i % 6 == 0) {
-                preuVendaPublic = Double.parseDouble(dadesClients[i]);
-            } else if (i % 7 == 0) {
-                nombeTerminis = Integer.parseInt(dadesClients[i]);
-            } else if (i % 8 == 0) {
-                quantia = Double.parseDouble(dadesClients[i]);
+        int cont = 1;
+        int contVenda = 1;
+        for (String dadesVendes : dadesVendesTermini) {
+            if (cont > 9) {
+                cont = 1;
+            }
+            switch (cont) {
+                case 1:
+                    dni = dadesVendes;
+                    break;
+                case 2:
+                    nom = dadesVendes;
+                    break;
+                case 3:
+                    adreca = dadesVendes;
+                    break;
+                case 4:
+                    telefono = dadesVendes;
+                    break;
+                case 5:
+                    nomComcepte = dadesVendes;
+                    break;
+                case 6:
+                    codi = dadesVendes;
+                    break;
+                case 7:
+                    preuVendaPublic = Double.parseDouble(dadesVendes);
+                    break;
+                case 8:
+                    nombeTerminis = Integer.parseInt(dadesVendes);
+                    break;
+                case 9:
+                    quantia = Double.parseDouble(dadesVendes);
+                    break;
+            }
+            if (cont == 9 && !Muutil.esDNIcorrecte(dni) && !getTeDNIRepetitVendaTerm(vendaTermi, dni) && !nomComcepte.isEmpty()) {
+                vendaTermi.add(new VendaTermini(new Client(nomComcepte, dni, nom, adreca, telefono), nombeTerminis, quantia, botiga.getAleatoriProducte(), botiga.getAleatoriVenedor(), getLocaldate(), preuVendaPublic));
+                cont = 0;
+                contVenda++;
             }
             cont++;
-            vendaTermi.add(new VendaTermini(new Client(nomComcepte, dni, nom, adreca, telefono), nombeTerminis, preuVendaPublic, botiga.getAleatoriProducte(), botiga.getAleatoriVenedor(), getLocaldate(), botiga.getPreuPublic()));
         }
         botiga.afegirVenda(vendaTermi);
     }
 
     private static LocalDate getLocaldate() {
-        return LocalDate.of(2023 + (int) (Math.random() * 100), 1 + (int) (Math.random() * 3), 1 + (int) (Math.random() * 28));
+        return LocalDate.of(2023, 1 + (int) (Math.random() * 3), 1 + (int) (Math.random() * 28));
+    }
+
+//    private static int getPos(String cad) {
+//        char coma = ',';
+//        for (int i = 0; i < cad.length(); i++) {
+//            if (cad.charAt(i) == coma) {
+//                return i;
+//            }
+//        }
+//        return cad.length();
+//    }
+
+    private static boolean getTeRepetitCodiVenedor(Map<String, Venedor> mapVenedor, String codi) {
+        for (Map.Entry<String, Venedor> entry : mapVenedor.entrySet()) {
+            Venedor val = entry.getValue();
+            if (val.getCodi().equals(codi)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static boolean getTeDNIRepetitVenedor(Map<String, Venedor> mapVenedor, String dni) {
+        for (Map.Entry<String, Venedor> entry : mapVenedor.entrySet()) {
+            Venedor val = entry.getValue();
+            if (val.getDni().equals(dni)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static boolean getTeRepetitCodiProducte(Map<String, Producte> mapProducte, String codi) {
+        for (Map.Entry<String, Producte> entry : mapProducte.entrySet()) {
+            Producte val = entry.getValue();
+            if (val.getCodi().equals(codi)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static boolean getTeDNIRepetitVendaTerm(List<Venda> vendaTermi, String dni) {
+        for (Iterator<Venda> iterator = vendaTermi.iterator(); iterator.hasNext();) {
+            Venda next = iterator.next();
+            if (next.getVenedor().getDni().equals(dni)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

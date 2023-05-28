@@ -7,7 +7,6 @@ package oovv;
 
 import excep.EstaBuitEX;
 import java.util.Objects;
-import vendaterminis.DadesIni;
 
 /**
  *
@@ -15,7 +14,7 @@ import vendaterminis.DadesIni;
  */
 public class Producte {
 
-    private String codi;
+    protected String codi;
     private String marca;
     private String nom;
     private String categoria;
@@ -75,5 +74,12 @@ public class Producte {
     public double getPreuVenda() {
         return preuVenda;
     }
+
+    @Override
+    public String toString() {
+        return codi + "__" + marca + "__" + nom + "__" + categoria + "__" + preuCompra + "__" + preuVenda;
+    }
+    
+    
 
 }

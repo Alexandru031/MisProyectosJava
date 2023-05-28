@@ -25,9 +25,9 @@ public class CDVenda implements ActionListener{
     private Producte producte;
     private Client client;
 
-    public CDVenda(DVenda finestra) {
+    public CDVenda(DVenda finestra, Botiga botiga) {
         this.finestra = finestra;
-        this.botiga = null;
+        this.botiga = botiga;
         this.venedor = null;
         this.producte = null;
         this.client = null;

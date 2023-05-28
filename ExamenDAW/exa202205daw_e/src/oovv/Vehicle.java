@@ -64,6 +64,8 @@ public abstract class Vehicle {
     
     public abstract String llistatRuta();
     
+    public abstract double getMaximKm();
+    
     public abstract void afegirRepostatges(List<Repostage> dadesRepostatge);
 
     @Override

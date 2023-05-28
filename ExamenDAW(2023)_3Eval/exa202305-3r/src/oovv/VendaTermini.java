@@ -13,7 +13,7 @@ import java.time.LocalDate;
  */
 public class VendaTermini extends Venda{
     
-    private Client client;
+    protected Client client;
     private int nomTerminisPend;
     private double quantia;
 

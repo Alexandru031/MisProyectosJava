@@ -25,11 +25,12 @@ public class Repostage {
         this.preuLitre = preuLitre;
     }
 
+    public double getKm() {
+        return km;
+    }
+
     @Override
     public String toString() {
         return km + "Km " + litres + " Litres a " + preuLitre + "€/L//";
     }
-    
-    
-    
 }

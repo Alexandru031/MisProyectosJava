@@ -79,4 +79,15 @@ public class Autobus extends Vehicle {
         return getMatricula() + "__" + getMarca() + "__" + conductor;
     }
 
+    @Override
+    public double getMaximKm() {
+        double maxim = repostage.get(0).getKm();
+        for (Repostage repos : repostage) {
+            if (maxim < repos.getKm()) {
+                maxim = repos.getKm();
+            }
+        }
+        return maxim; 
+    }
+
 }

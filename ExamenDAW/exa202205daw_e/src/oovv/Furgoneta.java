@@ -15,7 +15,7 @@ import java.util.List;
 public class Furgoneta extends Vehicle {
 
     private Conductor conductor;
-    private List<Repostage> respostatge;
+    private List<Repostage> repostage;
     private double capMaximLitres;
     private double preuLitre;
 
@@ -25,7 +25,7 @@ public class Furgoneta extends Vehicle {
             throw new MaEx("Capacitat maxima no está asignat");
         }
         this.conductor = conductor;
-        this.respostatge = new ArrayList<>();
+        this.repostage = new ArrayList<>();
         this.capMaximLitres = capMaximLitres;
         this.preuLitre = preuLitre;
     }
@@ -35,7 +35,7 @@ public class Furgoneta extends Vehicle {
         if (capMaximLitres == 0.0) {
             throw new MaEx("Capacitat maxima no está asignat");
         }
-        this.respostatge = new ArrayList<>();
+        this.repostage = new ArrayList<>();
         this.conductor = new Conductor();
         this.capMaximLitres = capMaximLitres;
         this.preuLitre = 0.0;
@@ -45,8 +45,8 @@ public class Furgoneta extends Vehicle {
     public String llistatRepositoris() {
         String llistat = "";
         int cont = 0;
-        if (respostatge != null) {
-            for (Repostage repos : respostatge) {
+        if (repostage != null) {
+            for (Repostage repos : repostage) {
                 if (cont > 2) {
                     llistat += "\n";
                     cont = 0;
@@ -61,12 +61,12 @@ public class Furgoneta extends Vehicle {
 
     @Override
     public void afegirRepostatges(List<Repostage> respos) {
-        respostatge = respos;
+        repostage = respos;
     }
 
     @Override
     public void afegirUnRepos(Repostage repos) {
-        respostatge.add(repos);
+        repostage.add(repos);
     }
     
     @Override
@@ -77,5 +77,16 @@ public class Furgoneta extends Vehicle {
     @Override
     public String toString() {
         return "Furgoneta> " + super.toString() + " amb " + capMaximLitres + " litres de capacitat a " + preuLitre + "€ el litre";
+    }
+
+    @Override
+    public double getMaximKm() {
+        double maxim = repostage.get(0).getKm();
+        for (Repostage repos : repostage) {
+            if (maxim <= repos.getKm()) {
+                maxim = repos.getKm();
+            }
+        }
+        return maxim;
     }
 }

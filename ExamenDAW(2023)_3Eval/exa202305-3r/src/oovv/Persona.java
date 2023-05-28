@@ -55,4 +55,15 @@ public class Persona {
         return Objects.equals(this.dni, other.dni);
     }
 
+    public String getDni() {
+        return dni;
+    }
+
+    @Override
+    public String toString() {
+        return dni + "__" + nom + "__" + adreça +"__" + telefono;
+    }
+    
+    
+
 }

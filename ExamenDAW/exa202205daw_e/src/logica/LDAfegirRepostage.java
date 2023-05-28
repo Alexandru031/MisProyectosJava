@@ -7,9 +7,7 @@ package logica;
 import excepcion.MaEx;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JOptionPane;
 import oovv.Repostage;
-import oovv.Vehicles;
 import vista.DAfegirRepostage;
 import vista.FPrincipal;
 

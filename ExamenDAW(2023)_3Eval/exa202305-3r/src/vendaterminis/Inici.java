@@ -11,7 +11,6 @@ import control.CFPrincipal;
 import excep.DNIincorrecteEX;
 import excep.EstaBuitEX;
 import javax.swing.JOptionPane;
-import javax.swing.JRootPane;
 import oovv.Botiga;
 import vista.FPrincipal;
 
@@ -32,15 +31,16 @@ public class Inici {
         }
         java.awt.EventQueue.invokeLater(() -> {
             FPrincipal f = new FPrincipal();
-            Botiga botiga; 
+            Botiga botiga = new Botiga();
             try {
                 botiga = DadesIni.creaBotiga();
-                CFPrincipal cp = new CFPrincipal(f, botiga);
-                f.setOidor(cp);
-                f.setVisible(true);
             } catch (DNIincorrecteEX | EstaBuitEX ex) {
                 JOptionPane.showMessageDialog(f, ex.getMessage());
             }
+            CFPrincipal cp = new CFPrincipal(f, botiga);
+            f.setOidor(cp);
+            f.setVisible(true);
+            
         });
     }
 

@@ -12,7 +12,6 @@ import oovv.Dades;
 import oovv.Repostage;
 import oovv.Vehicles;
 import vista.DAfegirRepostage;
-import vista.DAfegirVehicle;
 import vista.FPrincipal;
 
 /**
@@ -66,6 +65,9 @@ public class LFPrincipal implements ActionListener {
         f.setVisible(true);
         String clauRepos = c.getClauRepos();
         Repostage repos = c.getRepostage();
+        if (model.getMaximReposKm(repos.getKm())) {
+            JOptionPane.showMessageDialog(finestra, "S'ha afegit un repostage");
+        }
         model.afegirRespotage(clauRepos, repos);
     }
 

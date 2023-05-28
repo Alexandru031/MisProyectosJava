@@ -15,19 +15,21 @@ import excep.EstaBuitEX;
 public class Venedor extends Persona {
     
     private String codi;
-
+    
     public Venedor(String codi, String dni, String nom, String adreça, String telefono) throws EstaBuitEX, DNIincorrecteEX {
         super(dni, nom, adreça, telefono);
-        if (codi == null ||codi.isEmpty()) {
+        if (codi == null || codi.isEmpty()) {
             throw new EstaBuitEX("El codi no pot estar buit");
         }
         this.codi = codi;
     }
-
+    
     @Override
     public String toString() {
-        return super.toString() + "___codi: " + codi; 
+        return super.toString() + "___ " + codi; 
     }
-    
-    
+
+    public String getCodi() {
+        return codi;
+    }
 }

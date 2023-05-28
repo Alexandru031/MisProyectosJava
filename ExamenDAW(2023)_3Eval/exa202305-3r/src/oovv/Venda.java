@@ -34,11 +34,16 @@ public class Venda implements Comparable<Venda>{
         return data;
     }
 
+    public Venedor getVenedor() {
+        return venedor;
+    }
+
     @Override
     public String toString() {
         return "Productes: " + producte + "Venedors: " + venedor + " Data: " + data + "___PreuVendaPublic" + preuVendaPublic;
     }
-    
-    
-    
+
+    public double getPreuVendaPublic() {
+        return preuVendaPublic;
+    }
 }
