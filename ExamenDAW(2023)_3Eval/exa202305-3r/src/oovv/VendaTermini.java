@@ -28,6 +28,15 @@ public class VendaTermini extends Venda{
     public String toString() {
         return super.toString() + "___client " + client +  "___nombre Terminis:" + nomTerminisPend + "___Quantia: " + quantia;
     }
+
+    public int getNomTerminisPend() {
+        return nomTerminisPend;
+    }
+
+    public double getQuantia() {
+        return quantia;
+    }
+    
     
     
 }

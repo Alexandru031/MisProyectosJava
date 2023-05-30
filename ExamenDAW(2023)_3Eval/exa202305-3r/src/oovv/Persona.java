@@ -63,7 +63,9 @@ public class Persona {
     public String toString() {
         return dni + "__" + nom + "__" + adreça +"__" + telefono;
     }
-    
-    
+
+    public String getNom() {
+        return nom;
+    }
 
 }

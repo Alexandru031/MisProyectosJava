@@ -1,4 +1,4 @@
-/*
+ /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -8,10 +8,7 @@ package vendaterminis;
 import excep.DNIincorrecteEX;
 import excep.EstaBuitEX;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import oovv.Botiga;
 import oovv.Client;
@@ -248,22 +245,26 @@ public class DadesIni {
      * @param botiga
      */
     public static void creaVendes(Botiga botiga) {
-        List<Venda> vendes = new ArrayList<>();
+//        List<Venda> vendes = new ArrayList<>();
         for (int i = 0; i < 300; i++) {
-            Producte prod = 
-                    botiga.getAleatoriProducte();
-            double preuVendaPublic = prod.getPreuVenda() * 0.9;
-            vendes.add(new Venda(prod, botiga.getAleatoriVenedor(), getLocaldate(), preuVendaPublic));
+            Producte prod = botiga.getAleatoriProducte();
+            double preuVenda = prod.getPreuVenda()*0.9;
+            botiga.afegirUnaVenda(new Venda(prod, botiga.getAleatoriVenedor(), getLocaldate(), preuVenda));
+//            vendes.add(new Venda(prod, botiga.getAleatoriVenedor(), getLocaldate(), preuVenda));
+            
         }
-        botiga.afegirVenda(vendes);
+//        botiga.afegirVenda(vendes);
     }
 
     /**
-     * crea les vendes a termini. les dades d'obtenen de la matriu
-     * dadesVendesTermini, el DNI del client, el nom del client, l’adreça del
-     * client, el telèfon del client, el nombre de compte del client, el codi
-     * del producte, el preu de venda al públic del producte, el nombre de
-     * terminis i la quantia de cada termini.
+     * crea les vendes a termini.les dades d'obtenen de la matriu
+ dadesVendesTermini, el DNI del client, el nom del client, l’adreça del
+ client, el telèfon del client, el nombre de compte del client, el codi
+ del producte, el preu de venda al públic del producte, el nombre de
+ terminis i la quantia de cada termini.
+     * @param botiga
+     * @throws excep.EstaBuitEX
+     * @throws excep.DNIincorrecteEX
      */
     public static void creaVendesTermini(Botiga botiga) throws EstaBuitEX, DNIincorrecteEX {
         String[] dadesVendesTermini = {
@@ -278,7 +279,6 @@ public class DadesIni {
             "39931659-W", "-", "-", "-", "", "-", "0", "0", "0",//el nombre de compte està buit
             "25847585-R", "Alvaro Aragón Díaz", "Soller 1, Valencia", "963333333", "0033-12323", "211", "499", "23", "26"
         };
-        List<Venda> vendaTermi = new ArrayList<>();
         String dni = "";
         String nom = "";
         String adreca = "";
@@ -323,14 +323,15 @@ public class DadesIni {
                     quantia = Double.parseDouble(dadesVendes);
                     break;
             }
-            if (cont == 9 && !Muutil.esDNIcorrecte(dni) && !getTeDNIRepetitVendaTerm(vendaTermi, dni) && !nomComcepte.isEmpty()) {
-                vendaTermi.add(new VendaTermini(new Client(nomComcepte, dni, nom, adreca, telefono), nombeTerminis, quantia, botiga.getAleatoriProducte(), botiga.getAleatoriVenedor(), getLocaldate(), preuVendaPublic));
+            if (cont == 9 && !Muutil.esDNIcorrecte(dni) && /*!getTeDNIRepetitVendaTerm(vendaTermi, clients, dni)*/ !botiga.getTeDNIRepetit(dni) && !nomComcepte.isEmpty()) {
+                Client client = new Client(nomComcepte, dni, nom, adreca, telefono);
+                botiga.afegirUnClient(client);
+                botiga.afegirUnaVendaTermini(new VendaTermini(client, nombeTerminis, quantia, botiga.getCodiProducte(codi), botiga.getAleatoriVenedor(), getLocaldate(), preuVendaPublic*0.9));
                 cont = 0;
                 contVenda++;
             }
             cont++;
         }
-        botiga.afegirVenda(vendaTermi);
     }
 
     private static LocalDate getLocaldate() {
@@ -377,13 +378,24 @@ public class DadesIni {
         return false;
     }
 
-    private static boolean getTeDNIRepetitVendaTerm(List<Venda> vendaTermi, String dni) {
-        for (Iterator<Venda> iterator = vendaTermi.iterator(); iterator.hasNext();) {
-            Venda next = iterator.next();
-            if (next.getVenedor().getDni().equals(dni)) {
-                return true;
-            }
-        }
-        return false;
-    }
+//    private static boolean getTeDNIRepetitVendaTerm(List<Venda> vendaTermi, List<Client> clients, String dni) {
+//        boolean estaRepetit = false;
+//        for (Iterator<Venda> iterator = vendaTermi.iterator(); iterator.hasNext();) {
+//            Venda next = iterator.next();
+//            if (next.getVenedor().getDni().equals(dni)) {
+//                estaRepetit = true;
+//            }
+//        }
+//        
+//        for (Iterator<Client> iterator = clients.iterator(); iterator.hasNext();) {
+//            Client next = iterator.next();
+//            String[] separaDNI = dni.split("-");
+//            String otroDNI = next.getDni();
+//            String[] separaOtro = otroDNI.split("-");
+//            if (separaDNI[0].equals(separaOtro[0])) {
+//                estaRepetit = true;
+//            }
+//        }
+//        return estaRepetit;
+//    }
 }

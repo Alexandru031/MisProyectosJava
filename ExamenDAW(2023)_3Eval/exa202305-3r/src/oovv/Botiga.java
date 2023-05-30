@@ -6,10 +6,12 @@
 package oovv;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import vendaterminis.CONST;
 import vendaterminis.Muutil;
 
 /**
@@ -39,47 +41,124 @@ public class Botiga {
     }
 
     public Producte getAleatoriProducte() {
-        int numKey = Muutil.getAleatori(0, productes.size());
-        return productes.get("Producte_"+numKey);
+        int numKey = Muutil.getAleatori(1, productes.size());
+        return productes.get("Producte_" + numKey);
     }
 
     public Venedor getAleatoriVenedor() {
-        int numKey = Muutil.getAleatori(0, venedors.size());
+        int numKey = Muutil.getAleatori(1, venedors.size());
         return venedors.get("Venedor_" + numKey);
     }
 
-    public double getPreuPublic() {
-        double media = 0;
+//    public void afegirVenda(List<Venda> vendaTermi) {
+//        vendes = vendaTermi;
+//    }
+
+//    public String llistarVendes(String codi) {
+//        String llistar = "Vendes de \n------------------\n";
+//        for (Map.Entry<String, Venedor> entry : venedors.entrySet()) {
+//            Object key = entry.getKey();
+//            Object val = entry.getValue();
+//        }
+//        return llistar;
+//    }
+
+//    public void afegirClients(List<Client> client) {
+//        clients = client;
+//    }
+
+    public Producte getCodiProducte(String codi) {
         for (Map.Entry<String, Producte> entry : productes.entrySet()) {
+            String key = entry.getKey();
             Producte val = entry.getValue();
-            media += val.getPreuVenda();
+            if (val.getCodi().equals(codi)) {
+                return productes.get(key);
+            }
         }
-        double mediaAnterior = media / productes.size();
-        media = (media / productes.size()) * 0.9;
-        return mediaAnterior - media;
+        return null;
     }
 
-    public void afegirVenda(List<Venda> vendaTermi) {
-        vendes = vendaTermi;
-    }
-
-    public String llistarVendes(String codi) {
-        String llistar = "Vendes de \n------------------\n";
-        for (Map.Entry<String, Venedor> entry : venedors.entrySet()) {
-            Object key = entry.getKey();
-            Object val = entry.getValue();
-        }
-        return llistar;
-    }
-
-    public boolean teDNIRepetitVendaTerm(String dni) {
-        for (Iterator<Venda> iterator = vendes.iterator(); iterator.hasNext();) {
-            VendaTermini next = (VendaTermini) iterator.next();
-            if (next.client.getDni().equals(dni)) {
+    public boolean teVenedor(String codi) {
+        for (Venda venda : vendes) {
+            if (venda instanceof VendaTermini || venda.getVenedor().getCodi().equals(codi)) {
                 return true;
             }
         }
+//        for (Map.Entry<String, Venedor> entry : venedors.entrySet()) {
+//            Venedor val = entry.getValue();
+//            if (val.getCodi().equals(codi)) {
+//                return true;
+//            }
+//        }
         return false;
     }
 
+    public String llistarVendes(String codi) {
+        String llistat = "Vendes de " + buscaNom(codi) + "\n-------------------------\n";
+        int contVendes = 0;
+        double importTotal = 0;
+        Collections.sort(vendes);
+        for (Venda vende : vendes) {    
+            if (vende.getVenedor().getCodi().equals(codi)) {
+                llistat += CONST.DTF.format(vende.getData()) + " > " +  vende.getProducte().llistatVendaProducte() + " > "  + vende.getPreuVendaPublic();
+                importTotal += vende.getPreuVendaPublic();
+                if (vende instanceof VendaTermini) {
+                    llistat +=  " > " + ((VendaTermini) vende).getNomTerminisPend() + " > " + ((VendaTermini) vende).getQuantia();
+                } else {
+                    llistat += "\n";
+                }
+                contVendes++;
+            }
+        }
+        llistat += "\n-----------------------------------------------------\n" + "Nombre de vendes: " + contVendes + String.format(" Import Total: %.2f", importTotal); 
+        return llistat;
+    }
+
+    public void afegirUnaVenda(Venda venda) {
+        vendes.add(venda);
+    }
+
+    public void afegirUnaVendaTermini(VendaTermini vendaTermini) {
+        vendes.add(vendaTermini);
+    }
+
+    public void afegirUnClient(Client client) {
+        clients.add(client);
+    }
+
+    public boolean getTeDNIRepetit(String dni) {
+        boolean estaRepetit = false;
+        for (Iterator<Venda> iterator = vendes.iterator(); iterator.hasNext();) {
+            Venda next = iterator.next();
+            if (next.getVenedor().getDni().equals(dni)) {
+                estaRepetit = true;
+            }
+        }
+        
+        for (Iterator<Client> iterator = clients.iterator(); iterator.hasNext();) {
+            Client next = iterator.next();
+            String[] separaDNI = dni.split("-");
+            String otroDNI = next.getDni();
+            String[] separaOtro = otroDNI.split("-");
+            if (separaDNI[0].equals(separaOtro[0])) {
+                estaRepetit = true;
+            }
+        }
+        return estaRepetit;
+    }
+
+    private String buscaNom(String codi) {
+        for (Venda venda : vendes) {
+            if (venda.getVenedor().getCodi().equals(codi)) {
+                return venda.getVenedor().getNom();
+            }
+        }
+//        for (Iterator<Venda> iterator = vendes.iterator(); iterator.hasNext();) {
+//            Venda next = iterator.next();
+//            if (next.getVenedor().getCodi().equals(codi)) {
+//                return next.getVenedor().getNom();
+//            }
+//        }
+        return null;
+    }
 }

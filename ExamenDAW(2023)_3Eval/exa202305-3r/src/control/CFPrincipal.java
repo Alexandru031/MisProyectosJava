@@ -36,7 +36,7 @@ public class CFPrincipal implements ActionListener {
                 break;
             case "LlistarVendes":
                 String codi = JOptionPane.showInputDialog(finestra, "Introduceix el codi");
-                if (botiga.teVenedor(codi)) {
+                if (!botiga.teVenedor(codi)) {
                     JOptionPane.showMessageDialog(finestra, "no hi ha cap venedor amb aquest codi");
                 } else {
                     finestra.mostra(botiga.llistarVendes(codi));

@@ -30,6 +30,9 @@ public class Inici {
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
         }
         java.awt.EventQueue.invokeLater(() -> {
+            
+//            System.out.println(Muutil.esDNIcorrecte("40007000-X"));
+            
             FPrincipal f = new FPrincipal();
             Botiga botiga = new Botiga();
             try {
@@ -40,7 +43,6 @@ public class Inici {
             CFPrincipal cp = new CFPrincipal(f, botiga);
             f.setOidor(cp);
             f.setVisible(true);
-            
         });
     }
 

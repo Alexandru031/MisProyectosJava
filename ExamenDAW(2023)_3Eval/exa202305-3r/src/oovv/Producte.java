@@ -79,6 +79,10 @@ public class Producte {
     public String toString() {
         return codi + "__" + marca + "__" + nom + "__" + categoria + "__" + preuCompra + "__" + preuVenda;
     }
+
+    public String llistatVendaProducte() {
+        return marca + " >> " + nom + " >>> " + categoria;
+    }
     
     
 

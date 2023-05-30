@@ -35,12 +35,16 @@ public class Muutil {
         String[] separa = dni.split("-");
         String digits = separa[0];
         String lletra = separa[1].toUpperCase();
-        for (int i = 0; i < digits.length(); i++) {
-            if (!Character.isDigit(digits.charAt(i)) || digits.length() > 8) {
-                return true;
-            }
+        if (digits.length() > 8 || lletra.length() > 1) {
+            return true;
         }
-        if (!Character.isLetter(lletra.charAt(0)) || lletra.length() > 1) {
+        if (!Character.isLetter(lletra.charAt(0))) {
+            return true;
+        }
+        if (teDigits(digits)) {
+            return true;
+        }
+        if (!teLletra(lletra)) {
             return true;
         }
         return false;
@@ -51,6 +55,20 @@ public class Muutil {
             return getAleatori(sup, inf);
         }
         return inf + (int) (Math.random() * (sup - inf + 1));
+    }
+
+    private static boolean teLletra(String lletra) {
+         String lletres = "TRWAGMYFPDXBNJZSQVHLCKEU";
+         return lletres.contains(lletra);
+    }
+
+    private static boolean teDigits(String digits) {
+        for (int i = 0; i < digits.length(); i++) {
+            if (Character.isLetter(digits.charAt(i))) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

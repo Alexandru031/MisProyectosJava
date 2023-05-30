@@ -14,7 +14,7 @@ import java.time.LocalDate;
  */
 public class Venda implements Comparable<Venda>{
     private Producte producte;
-    private Venedor venedor;
+    protected Venedor venedor;
     private LocalDate data;
     private double preuVendaPublic;
 
@@ -38,6 +38,10 @@ public class Venda implements Comparable<Venda>{
         return venedor;
     }
 
+    public Producte getProducte() {
+        return producte;
+    }
+
     @Override
     public String toString() {
         return "Productes: " + producte + "Venedors: " + venedor + " Data: " + data + "___PreuVendaPublic" + preuVendaPublic;
@@ -46,4 +50,11 @@ public class Venda implements Comparable<Venda>{
     public double getPreuVendaPublic() {
         return preuVendaPublic;
     }
+
+//    public String llistatVendes() {
+//        String llistat = "";
+//        
+//    }
+    
+    
 }
