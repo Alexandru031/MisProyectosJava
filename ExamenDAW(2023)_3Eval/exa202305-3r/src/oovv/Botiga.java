@@ -5,6 +5,7 @@
  */
 package oovv;
 
+import excep.EstaBuitEX;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -53,7 +54,6 @@ public class Botiga {
 //    public void afegirVenda(List<Venda> vendaTermi) {
 //        vendes = vendaTermi;
 //    }
-
 //    public String llistarVendes(String codi) {
 //        String llistar = "Vendes de \n------------------\n";
 //        for (Map.Entry<String, Venedor> entry : venedors.entrySet()) {
@@ -62,11 +62,9 @@ public class Botiga {
 //        }
 //        return llistar;
 //    }
-
 //    public void afegirClients(List<Client> client) {
 //        clients = client;
 //    }
-
     public Producte getCodiProducte(String codi) {
         for (Map.Entry<String, Producte> entry : productes.entrySet()) {
             String key = entry.getKey();
@@ -80,7 +78,7 @@ public class Botiga {
 
     public boolean teVenedor(String codi) {
         for (Venda venda : vendes) {
-            if (venda instanceof VendaTermini || venda.getVenedor().getCodi().equals(codi)) {
+            if (venda.getVenedor().getCodi().equals(codi) || venda instanceof VendaTermini) {
                 return true;
             }
         }
@@ -94,23 +92,27 @@ public class Botiga {
     }
 
     public String llistarVendes(String codi) {
-        String llistat = "Vendes de " + buscaNom(codi) + "\n-------------------------\n";
+        String llistat = "";
+        if (!teCodi(codi)) {
+            return "no has seleccionat el Venedor";
+        }
+        llistat += "Vendes de " + getNomVenedor(codi) + "\n------------------------------\n";
         int contVendes = 0;
         double importTotal = 0;
         Collections.sort(vendes);
-        for (Venda vende : vendes) {    
+        for (Venda vende : vendes) {
             if (vende.getVenedor().getCodi().equals(codi)) {
-                llistat += CONST.DTF.format(vende.getData()) + " > " +  vende.getProducte().llistatVendaProducte() + " > "  + vende.getPreuVendaPublic();
+                llistat += CONST.DTF.format(vende.getData()) + " > " + vende.getProducte().llistatVendaProducte() + " > " + vende.getPreuVendaPublic();
                 importTotal += vende.getPreuVendaPublic();
                 if (vende instanceof VendaTermini) {
-                    llistat +=  " > " + ((VendaTermini) vende).getNomTerminisPend() + " > " + ((VendaTermini) vende).getQuantia();
+                    llistat += " > " + ((VendaTermini) vende).getNomTerminisPend() + " > " + ((VendaTermini) vende).getQuantia() + "\n";
                 } else {
                     llistat += "\n";
                 }
                 contVendes++;
             }
         }
-        llistat += "\n-----------------------------------------------------\n" + "Nombre de vendes: " + contVendes + String.format(" Import Total: %.2f", importTotal); 
+        llistat += "-----------------------------------------------------\n" + "Nombre de vendes: " + contVendes + String.format(" Import Total: %.2f", importTotal);
         return llistat;
     }
 
@@ -134,7 +136,7 @@ public class Botiga {
                 estaRepetit = true;
             }
         }
-        
+
         for (Iterator<Client> iterator = clients.iterator(); iterator.hasNext();) {
             Client next = iterator.next();
             String[] separaDNI = dni.split("-");
@@ -147,7 +149,7 @@ public class Botiga {
         return estaRepetit;
     }
 
-    private String buscaNom(String codi) {
+    private String getNomVenedor(String codi) {
         for (Venda venda : vendes) {
             if (venda.getVenedor().getCodi().equals(codi)) {
                 return venda.getVenedor().getNom();
@@ -160,5 +162,14 @@ public class Botiga {
 //            }
 //        }
         return null;
+    }
+
+    private boolean teCodi(String codi) {
+        for (Venda venda : vendes) {
+            if (venda.getVenedor().getCodi().equals(codi)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

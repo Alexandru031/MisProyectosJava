@@ -5,8 +5,11 @@
  */
 package control;
 
+import excep.EstaBuitEX;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import oovv.Botiga;
 import vista.DVenda;
@@ -39,7 +42,7 @@ public class CFPrincipal implements ActionListener {
                 if (!botiga.teVenedor(codi)) {
                     JOptionPane.showMessageDialog(finestra, "no hi ha cap venedor amb aquest codi");
                 } else {
-                    finestra.mostra(botiga.llistarVendes(codi));
+                finestra.mostra(botiga.llistarVendes(codi));
                 }
                 break;
         }
